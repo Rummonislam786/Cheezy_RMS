@@ -240,8 +240,9 @@ public class LoginScreen extends javax.swing.JFrame {
      void LoginCall(String usr, String pswd){
         boolean flag = false;
         try{
+            SqlConn sql = new SqlConn();
             Class.forName("java.sql.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cheezyrms_bubt","root","");
+            Connection conn = DriverManager.getConnection(sql.sqlConnection,sql.sqlUser,sql.sqlPass);
             Statement stmt = conn.createStatement();
             String qrry = "select * from user_conf where UserName=\"" + usr +"\" and Password=\"" + pswd + "\";";
             ResultSet rs = stmt.executeQuery(qrry);
