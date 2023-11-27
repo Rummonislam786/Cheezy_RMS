@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JRootPane;
+import java.util.Calendar;
 
 /**
  *
@@ -80,7 +81,6 @@ public class Inventory extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         Unit_Txt = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        Exp_Txt = new javax.swing.JTextField();
         Update_btn = new javax.swing.JButton();
         ClearBtn = new javax.swing.JButton();
         Add_Btn = new javax.swing.JButton();
@@ -128,9 +128,6 @@ public class Inventory extends javax.swing.JPanel {
         jLabel4.setForeground(new java.awt.Color(255, 255, 0));
         jLabel4.setText("Expiry Date");
         add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 240, -1, -1));
-
-        Exp_Txt.setBackground(new java.awt.Color(255, 102, 0));
-        add(Exp_Txt, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 240, 400, 30));
 
         Update_btn.setBackground(new java.awt.Color(102, 0, 0));
         Update_btn.setFont(new java.awt.Font("Cafe Francoise", 0, 18)); // NOI18N
@@ -242,6 +239,24 @@ public class Inventory extends javax.swing.JPanel {
         Additem_Btn.setVisible(false);
         Update_btn.setVisible(true);
         Item_box.setVisible(true);
+        try {
+            Class.forName("java.sql.Driver");
+            Connection conn = DriverManager.getConnection(sql.sqlConnection,sql.sqlUser,sql.sqlPass);
+            Statement stmt = conn.createStatement();
+//                String qrry = "Insert into doctorBooking values("
+//                         +"'" + doctor + "',"
+//                         +"'" + time + "',"
+//                         +"'" + fee + "',"
+//                         +"'" + paymentOption + "',"
+//                         +"'" + cnic + "',"
+//                         +"'" + date + "'"
+//                         + ")";
+//                 
+//                 stmt.executeUpdate(qrry);
+             }catch(ClassNotFoundException| DateTimeException | NumberFormatException|SQLException ex){
+            JOptionPane.showMessageDialog(new JRootPane(),"Error in Fetching Data In Inventory");
+        }
+        
     }//GEN-LAST:event_Additem_BtnActionPerformed
     
 
@@ -250,7 +265,6 @@ public class Inventory extends javax.swing.JPanel {
     private javax.swing.JButton Add_Btn;
     private javax.swing.JButton Additem_Btn;
     private javax.swing.JButton ClearBtn;
-    private javax.swing.JTextField Exp_Txt;
     private javax.swing.JComboBox<String> Item_box;
     private javax.swing.JTextField Quan_txt;
     private javax.swing.JTextField Unit_Txt;
