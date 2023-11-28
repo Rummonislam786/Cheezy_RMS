@@ -10,7 +10,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -19,6 +21,8 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JRootPane;
 import java.util.Calendar;
+import java.util.Date;
+import org.jdatepicker.JDatePicker;
 
 /**
  *
@@ -89,6 +93,7 @@ public class Inventory extends javax.swing.JPanel {
         jTable1 = new javax.swing.JTable();
         AddItem_txt = new javax.swing.JTextField();
         Additem_Btn = new javax.swing.JButton();
+        ExpiryDtePck = new com.toedter.calendar.JDateChooser();
 
         setBackground(new java.awt.Color(255, 102, 0));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -209,6 +214,9 @@ public class Inventory extends javax.swing.JPanel {
             }
         });
         add(Additem_Btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 320, 190, -1));
+
+        ExpiryDtePck.setBackground(new java.awt.Color(255, 102, 0));
+        add(ExpiryDtePck, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 240, 400, 30));
     }// </editor-fold>//GEN-END:initComponents
     
     private void Update_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Update_btnActionPerformed
@@ -243,18 +251,30 @@ public class Inventory extends javax.swing.JPanel {
             Class.forName("java.sql.Driver");
             Connection conn = DriverManager.getConnection(sql.sqlConnection,sql.sqlUser,sql.sqlPass);
             Statement stmt = conn.createStatement();
-//                String qrry = "Insert into doctorBooking values("
-//                         +"'" + doctor + "',"
-//                         +"'" + time + "',"
-//                         +"'" + fee + "',"
-//                         +"'" + paymentOption + "',"
-//                         +"'" + cnic + "',"
-//                         +"'" + date + "'"
-//                         + ")";
-//                 
-//                 stmt.executeUpdate(qrry);
+            String pattern = "yyyy-MM-dd";
+
+            DateFormat df = new SimpleDateFormat(pattern);
+
+            Date Expirydate = ExpiryDtePck.getDate();       
+            
+            String ExpiryDateConverted = df.format(Expirydate);
+            
+            String Name = AddItem_txt.getText();
+            double Quantity = Double.parseDouble(Quan_txt.getText());
+            String Unit = Unit_Txt.getText();
+            
+            String Name1 = AddItem_txt.getText();
+
+                String qrry = "Insert into inventory(Inv_Name,Inv_Quantity,Inv_Unit,Expiry_date) values("
+                         +"'" + Name + "',"
+                         +"'" + Quantity + "',"
+                         +"'" + Unit + "',"
+                         +"'" + ExpiryDateConverted + "'"
+                         + ")";
+                 
+                 stmt.executeUpdate(qrry);
              }catch(ClassNotFoundException| DateTimeException | NumberFormatException|SQLException ex){
-            JOptionPane.showMessageDialog(new JRootPane(),"Error in Fetching Data In Inventory");
+            JOptionPane.showMessageDialog(new JRootPane(),ex);
         }
         
     }//GEN-LAST:event_Additem_BtnActionPerformed
@@ -265,6 +285,7 @@ public class Inventory extends javax.swing.JPanel {
     private javax.swing.JButton Add_Btn;
     private javax.swing.JButton Additem_Btn;
     private javax.swing.JButton ClearBtn;
+    private com.toedter.calendar.JDateChooser ExpiryDtePck;
     private javax.swing.JComboBox<String> Item_box;
     private javax.swing.JTextField Quan_txt;
     private javax.swing.JTextField Unit_Txt;
