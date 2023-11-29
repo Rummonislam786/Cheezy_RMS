@@ -69,9 +69,16 @@ public class Inventory extends javax.swing.JPanel {
         model.fireTableDataChanged();
     }
     private void setCombobox(){
+        try{
+        Item_box.setSelectedItem("");
         Item_box.removeAllItems();
         for (InventoryModel item : InvList) {
             Item_box.addItem(item.getInvID() + " - "+item.getInv_name());
+        }
+        Item_box.setSelectedIndex(0);
+        }
+        catch(Exception ex){
+            
         }
         
     }
@@ -261,7 +268,7 @@ public class Inventory extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(new JRootPane(), "Data Updated Succesfully");
         GetInvList();
         setTable();
-        setCombobox();
+        
         }
         catch(Exception ex){
             JOptionPane.showMessageDialog(new JRootPane(),ex);
@@ -279,6 +286,7 @@ public class Inventory extends javax.swing.JPanel {
         Additem_Btn.setVisible(true);
         Update_btn.setVisible(false);
         Item_box.setVisible(false);
+        clearData();
         
     }//GEN-LAST:event_Add_BtnActionPerformed
 
@@ -306,6 +314,10 @@ public class Inventory extends javax.swing.JPanel {
         Update_btn.setVisible(true);
         Item_box.setVisible(true);
         try {
+            
+            if(AddItem_txt.getText() == "")
+                return;
+            
             Class.forName("java.sql.Driver");
             Connection conn = DriverManager.getConnection(sql.sqlConnection,sql.sqlUser,sql.sqlPass);
             Statement stmt = conn.createStatement();
