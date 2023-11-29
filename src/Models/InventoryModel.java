@@ -24,5 +24,27 @@ public class InventoryModel {
         this.Inv_unit = Inv_unit;
         this.Expiry_date = Expiry_date;
     }
+
+    public LocalDate getExpiry_date() {
+        
+        return Expiry_date;
+    }
+
+    public int getInvID() {
+        return invID;
+    }
+
+    public double getInv_Quantity() {
+        return Inv_Quantity;
+    }
+
+    public String getInv_name() {
+        return Inv_name;
+    }
+
+    public String getInv_unit() {
+        return Inv_unit;
+    }
+    
     
 }

@@ -15,6 +15,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JRootPane;
 import java.util.Calendar;
 import java.util.Date;
-import org.jdatepicker.JDatePicker;
+import javax.swing.table.DefaultTableModel;
+
 
 /**
  *
@@ -38,7 +40,8 @@ public class Inventory extends javax.swing.JPanel {
         AddItem_txt.setVisible(false);
         Additem_Btn.setVisible(false);
         GetInvList();
-        
+        setTable();
+        setCombobox();
     }
     
     public Inventory(String A){
@@ -55,9 +58,24 @@ public class Inventory extends javax.swing.JPanel {
     List<InventoryModel> InvList = new ArrayList<InventoryModel>();
     SqlConn sql = new SqlConn();
     @SuppressWarnings("unchecked")
-    
-    public void GetInvList(){
+    private void setTable(){
+        
+
+        DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
+        model.setRowCount(0);
+        for (InventoryModel item : InvList) {
+            model.addRow(new Object[]{item.getInv_name(),item.getInv_Quantity(),item.getInv_unit(),item.getExpiry_date()});
+        }
+        model.fireTableDataChanged();
+    }
+    private void setCombobox(){
+        for (InventoryModel item : InvList) {
+            Item_box.addItem(item.getInvID() + " - "+item.getInv_name());
+        }
+    }
+    private void GetInvList(){
         try{
+            InvList.clear();
             Class.forName("java.sql.Driver");
             Connection conn = DriverManager.getConnection(sql.sqlConnection,sql.sqlUser,sql.sqlPass);
             Statement stmt = conn.createStatement();
@@ -101,38 +119,36 @@ public class Inventory extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Cafe Francoise", 0, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 0));
         jLabel1.setText("Quantity");
-        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 120, -1, -1));
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, -1, -1));
 
         Item_box.setBackground(new java.awt.Color(255, 102, 0));
-        Item_box.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Potato", "Chedder Cheese Slices", "Item 3", "Item 4" }));
-        Item_box.setSelectedItem(jTable1);
         Item_box.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Item_boxActionPerformed(evt);
             }
         });
-        add(Item_box, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 60, 400, 30));
+        add(Item_box, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 60, 400, 30));
 
         jLabel2.setFont(new java.awt.Font("Cafe Francoise", 0, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 0));
         jLabel2.setText("Name of Item :");
-        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 60, -1, -1));
+        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, -1, -1));
 
         Quan_txt.setBackground(new java.awt.Color(255, 102, 0));
-        add(Quan_txt, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 120, 400, 30));
+        add(Quan_txt, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 120, 400, 30));
 
         jLabel3.setFont(new java.awt.Font("Cafe Francoise", 0, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 0));
         jLabel3.setText("Unit");
-        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 180, -1, -1));
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, -1, -1));
 
         Unit_Txt.setBackground(new java.awt.Color(255, 102, 0));
-        add(Unit_Txt, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 180, 400, 30));
+        add(Unit_Txt, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 180, 400, 30));
 
         jLabel4.setFont(new java.awt.Font("Cafe Francoise", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 0));
         jLabel4.setText("Expiry Date");
-        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 240, -1, -1));
+        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 240, -1, -1));
 
         Update_btn.setBackground(new java.awt.Color(102, 0, 0));
         Update_btn.setFont(new java.awt.Font("Cafe Francoise", 0, 18)); // NOI18N
@@ -144,7 +160,7 @@ public class Inventory extends javax.swing.JPanel {
                 Update_btnActionPerformed(evt);
             }
         });
-        add(Update_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 320, 190, -1));
+        add(Update_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 320, 190, -1));
 
         ClearBtn.setBackground(new java.awt.Color(102, 0, 0));
         ClearBtn.setFont(new java.awt.Font("Cafe Francoise", 0, 18)); // NOI18N
@@ -156,7 +172,7 @@ public class Inventory extends javax.swing.JPanel {
                 ClearBtnActionPerformed(evt);
             }
         });
-        add(ClearBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 320, 190, -1));
+        add(ClearBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 320, 190, -1));
 
         Add_Btn.setBackground(new java.awt.Color(102, 0, 0));
         Add_Btn.setFont(new java.awt.Font("Cafe Francoise", 0, 18)); // NOI18N
@@ -168,7 +184,7 @@ public class Inventory extends javax.swing.JPanel {
                 Add_BtnActionPerformed(evt);
             }
         });
-        add(Add_Btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 53, 460, 40));
+        add(Add_Btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 50, 450, 40));
 
         jPanel2.setBackground(new java.awt.Color(255, 102, 0));
 
@@ -177,9 +193,7 @@ public class Inventory extends javax.swing.JPanel {
         jTable1.setForeground(new java.awt.Color(255, 255, 0));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Name of Item", "Quantity", "Unit", "Expiry Date"
@@ -200,8 +214,10 @@ public class Inventory extends javax.swing.JPanel {
 
         jPanel2.add(jScrollPane1);
 
-        add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 97, -1, 450));
-        add(AddItem_txt, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 60, 400, 30));
+        add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 100, 450, 450));
+
+        AddItem_txt.setBackground(new java.awt.Color(255, 102, 0));
+        add(AddItem_txt, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 60, 400, 30));
 
         Additem_Btn.setBackground(new java.awt.Color(102, 0, 0));
         Additem_Btn.setFont(new java.awt.Font("Cafe Francoise", 0, 18)); // NOI18N
@@ -213,14 +229,15 @@ public class Inventory extends javax.swing.JPanel {
                 Additem_BtnActionPerformed(evt);
             }
         });
-        add(Additem_Btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 320, 190, -1));
+        add(Additem_Btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 320, 190, -1));
 
         ExpiryDtePck.setBackground(new java.awt.Color(255, 102, 0));
-        add(ExpiryDtePck, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 240, 400, 30));
+        add(ExpiryDtePck, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 240, 400, 30));
     }// </editor-fold>//GEN-END:initComponents
     
     private void Update_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Update_btnActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_Update_btnActionPerformed
 
     private void ClearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClearBtnActionPerformed
@@ -234,10 +251,23 @@ public class Inventory extends javax.swing.JPanel {
         Additem_Btn.setVisible(true);
         Update_btn.setVisible(false);
         Item_box.setVisible(false);
+        
     }//GEN-LAST:event_Add_BtnActionPerformed
 
     private void Item_boxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Item_boxActionPerformed
-        
+        try{
+        int InvID = Integer.parseInt(Item_box.getSelectedItem().toString().split(" - ")[0]);
+        for (InventoryModel item : InvList) {
+            if(InvID == item.getInvID()){
+                Quan_txt.setText(Double.toString(item.getInv_Quantity()));
+                Unit_Txt.setText(item.Inv_unit);
+                ExpiryDtePck.setDate(Date.from(item.getExpiry_date().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            }
+        }
+        }
+        catch(Exception ex){
+            JOptionPane.showMessageDialog(new JRootPane(),ex);
+        }
     }//GEN-LAST:event_Item_boxActionPerformed
 
     private void Additem_BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Additem_BtnActionPerformed
@@ -255,7 +285,7 @@ public class Inventory extends javax.swing.JPanel {
 
             DateFormat df = new SimpleDateFormat(pattern);
 
-            Date Expirydate = ExpiryDtePck.getDate();       
+            Date Expirydate = ExpiryDtePck.getDate();     
             
             String ExpiryDateConverted = df.format(Expirydate);
             
@@ -265,20 +295,32 @@ public class Inventory extends javax.swing.JPanel {
             
             String Name1 = AddItem_txt.getText();
 
-                String qrry = "Insert into inventory(Inv_Name,Inv_Quantity,Inv_Unit,Expiry_date) values("
-                         +"'" + Name + "',"
-                         +"'" + Quantity + "',"
-                         +"'" + Unit + "',"
-                         +"'" + ExpiryDateConverted + "'"
-                         + ")";
+            
+            String qrry = "Insert into inventory(Inv_Name,Inv_Quantity,Inv_Unit,Expiry_date) values("
+                    +"'" + Name + "',"
+                    +"'" + Quantity + "',"
+                    +"'" + Unit + "',"
+                    +"'" + ExpiryDateConverted + "'"
+                    + ")";
                  
-                 stmt.executeUpdate(qrry);
+            stmt.executeUpdate(qrry);
+            JOptionPane.showMessageDialog(new JRootPane(), "Data Added Succesfully");
+            clearData();
+            GetInvList();
+            setTable();
+            setCombobox();
              }catch(ClassNotFoundException| DateTimeException | NumberFormatException|SQLException ex){
             JOptionPane.showMessageDialog(new JRootPane(),ex);
         }
         
     }//GEN-LAST:event_Additem_BtnActionPerformed
-    
+    private void clearData(){
+        LocalDate dateNow = LocalDate.now();
+        AddItem_txt.setText("");
+        Quan_txt.setText("");
+        Unit_Txt.setText("");
+        ExpiryDtePck.setDate(Date.from(dateNow.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField AddItem_txt;
