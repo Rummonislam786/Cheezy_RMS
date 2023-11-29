@@ -69,9 +69,11 @@ public class Inventory extends javax.swing.JPanel {
         model.fireTableDataChanged();
     }
     private void setCombobox(){
+        Item_box.removeAllItems();
         for (InventoryModel item : InvList) {
             Item_box.addItem(item.getInvID() + " - "+item.getInv_name());
         }
+        
     }
     private void GetInvList(){
         try{
@@ -237,7 +239,33 @@ public class Inventory extends javax.swing.JPanel {
     
     private void Update_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Update_btnActionPerformed
         // TODO add your handling code here:
+        try{
         
+        Class.forName("java.sql.Driver");
+        Connection conn = DriverManager.getConnection(sql.sqlConnection,sql.sqlUser,sql.sqlPass);
+        Statement stmt = conn.createStatement();
+        int InvID = Integer.parseInt(Item_box.getSelectedItem().toString().split(" - ")[0]);
+        String pattern = "yyyy-MM-dd";
+        DateFormat df = new SimpleDateFormat(pattern);
+        Date Expirydate = ExpiryDtePck.getDate();     
+        String ExpiryDateConverted = df.format(Expirydate);
+        double Quantity = Double.parseDouble(Quan_txt.getText());
+        String Unit = Unit_Txt.getText();
+        String Name1 = AddItem_txt.getText();
+        
+         String qrry = "UPDATE inventory SET "
+                 + "Inv_Quantity = " + Quantity +","
+                 + "Inv_Unit = \"" +Unit +"\","
+                 + "Expiry_date = '" + ExpiryDateConverted +"' WHERE Inv_ID = "+InvID;
+         stmt.executeUpdate(qrry);
+        JOptionPane.showMessageDialog(new JRootPane(), "Data Updated Succesfully");
+        GetInvList();
+        setTable();
+        setCombobox();
+        }
+        catch(Exception ex){
+            JOptionPane.showMessageDialog(new JRootPane(),ex);
+        }
     }//GEN-LAST:event_Update_btnActionPerformed
 
     private void ClearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClearBtnActionPerformed
