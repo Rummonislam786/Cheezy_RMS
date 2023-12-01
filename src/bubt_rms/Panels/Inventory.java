@@ -46,7 +46,6 @@ public class Inventory extends javax.swing.JPanel {
     
     public Inventory(String A){
         super();
-        
     }
 
     /**
@@ -59,8 +58,6 @@ public class Inventory extends javax.swing.JPanel {
     SqlConn sql = new SqlConn();
     @SuppressWarnings("unchecked")
     private void setTable(){
-        
-
         DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
         model.setRowCount(0);
         for (InventoryModel item : InvList) {
@@ -69,18 +66,19 @@ public class Inventory extends javax.swing.JPanel {
         model.fireTableDataChanged();
     }
     private void setCombobox(){
-        try{
-        Item_box.setSelectedItem("");
-        Item_box.removeAllItems();
-        for (InventoryModel item : InvList) {
+        try
+        {
+            Item_box.removeAllItems();
+            for(InventoryModel item : InvList){
             Item_box.addItem(item.getInvID() + " - "+item.getInv_name());
-        }
-        Item_box.setSelectedIndex(0);
-        }
-        catch(Exception ex){
+            }
+            Item_box.setSelectedIndex(0);
+            
             
         }
-        
+        catch(Exception ex){
+            System.out.println(ex);
+        }
     }
     private void GetInvList(){
         try{
@@ -252,7 +250,6 @@ public class Inventory extends javax.swing.JPanel {
     private void Update_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Update_btnActionPerformed
         // TODO add your handling code here:
         try{
-        
         Class.forName("java.sql.Driver");
         Connection conn = DriverManager.getConnection(sql.sqlConnection,sql.sqlUser,sql.sqlPass);
         Statement stmt = conn.createStatement();
@@ -264,16 +261,14 @@ public class Inventory extends javax.swing.JPanel {
         double Quantity = Double.parseDouble(Quan_txt.getText());
         String Unit = Unit_Txt.getText();
         String Name1 = AddItem_txt.getText();
-        
-         String qrry = "UPDATE inventory SET "
+        String qrry = "UPDATE inventory SET "
                  + "Inv_Quantity = " + Quantity +","
                  + "Inv_Unit = \"" +Unit +"\","
                  + "Expiry_date = '" + ExpiryDateConverted +"' WHERE Inv_ID = "+InvID;
-         stmt.executeUpdate(qrry);
+        stmt.executeUpdate(qrry);
         JOptionPane.showMessageDialog(new JRootPane(), "Data Updated Succesfully");
         GetInvList();
         setTable();
-        
         }
         catch(Exception ex){
             JOptionPane.showMessageDialog(new JRootPane(),ex);
@@ -299,6 +294,8 @@ public class Inventory extends javax.swing.JPanel {
 
     private void Item_boxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Item_boxActionPerformed
         try{
+        if(Item_box.getSelectedItem() == null)
+            return;
         int InvID = Integer.parseInt(Item_box.getSelectedItem().toString().split(" - ")[0]);
         for (InventoryModel item : InvList) {
             if(InvID == item.getInvID()){
@@ -356,25 +353,33 @@ public class Inventory extends javax.swing.JPanel {
             setTable();
             setCombobox();
              }catch(ClassNotFoundException| DateTimeException | NumberFormatException|SQLException ex){
-            JOptionPane.showMessageDialog(new JRootPane(),ex);
+                JOptionPane.showMessageDialog(new JRootPane(),ex);
+                System.out.println(ex);
         }
         
     }//GEN-LAST:event_Additem_BtnActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
-        if (evt.getClickCount() == 2 && evt.getButton() == java.awt.event.MouseEvent.BUTTON1) {
-            try{ 
+        try{ 
+            if (evt.getClickCount() == 2 && evt.getButton() == java.awt.event.MouseEvent.BUTTON1) {
+            
             javax.swing.JTable target = (javax.swing.JTable)evt.getSource();
-             int row = target.getSelectedRow();
-             int column = target.getSelectedColumn();
-             InventoryModel Cellselected = (InventoryModel)target.getValueAt(row,column);
-             System.out.println(Cellselected);
-            }
-            catch(Exception e){
-                JOptionPane.showMessageDialog(new JRootPane(),e);
+            int row = target.getSelectedRow();            
+            
+            String invName = (String) target.getValueAt(row, 0); // Assuming Inv_name is in the second column
+            
+            
+            
+            
+            
             }
         }
+        catch(Exception e){
+                System.out.println("\n"+e);
+                JOptionPane.showMessageDialog(new JRootPane(),e);
+        }
+        
     }//GEN-LAST:event_jTable1MouseClicked
     private void clearData(){
         LocalDate dateNow = LocalDate.now();
