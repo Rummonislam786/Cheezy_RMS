@@ -219,6 +219,11 @@ public class Inventory extends javax.swing.JPanel {
         jTable1.setGridColor(new java.awt.Color(255, 0, 51));
         jTable1.setSelectionBackground(new java.awt.Color(255, 51, 0));
         jTable1.getTableHeader().setReorderingAllowed(false);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jPanel2.add(jScrollPane1);
@@ -277,6 +282,8 @@ public class Inventory extends javax.swing.JPanel {
 
     private void ClearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClearBtnActionPerformed
         // TODO add your handling code here:
+        clearData();
+        Item_box.setSelectedIndex(0);
     }//GEN-LAST:event_ClearBtnActionPerformed
 
     private void Add_BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Add_BtnActionPerformed
@@ -334,7 +341,6 @@ public class Inventory extends javax.swing.JPanel {
             String Unit = Unit_Txt.getText();
             
             String Name1 = AddItem_txt.getText();
-
             
             String qrry = "Insert into inventory(Inv_Name,Inv_Quantity,Inv_Unit,Expiry_date) values("
                     +"'" + Name + "',"
@@ -354,6 +360,22 @@ public class Inventory extends javax.swing.JPanel {
         }
         
     }//GEN-LAST:event_Additem_BtnActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        if (evt.getClickCount() == 2 && evt.getButton() == java.awt.event.MouseEvent.BUTTON1) {
+            try{ 
+            javax.swing.JTable target = (javax.swing.JTable)evt.getSource();
+             int row = target.getSelectedRow();
+             int column = target.getSelectedColumn();
+             InventoryModel Cellselected = (InventoryModel)target.getValueAt(row,column);
+             System.out.println(Cellselected);
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(new JRootPane(),e);
+            }
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
     private void clearData(){
         LocalDate dateNow = LocalDate.now();
         AddItem_txt.setText("");
