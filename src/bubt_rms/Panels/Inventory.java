@@ -5,6 +5,7 @@
 package bubt_rms.Panels;
 import Models.InventoryModel;
 import bubt_rms.SqlConn;
+import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -23,6 +24,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JRootPane;
 import java.util.Calendar;
 import java.util.Date;
+import javax.swing.ComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 
 
@@ -117,6 +119,7 @@ public class Inventory extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         AddItem_txt = new javax.swing.JTextField();
+        Delete_btn = new javax.swing.JButton();
         Additem_Btn = new javax.swing.JButton();
         ExpiryDtePck = new com.toedter.calendar.JDateChooser();
 
@@ -167,7 +170,7 @@ public class Inventory extends javax.swing.JPanel {
                 Update_btnActionPerformed(evt);
             }
         });
-        add(Update_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 320, 190, -1));
+        add(Update_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 320, 170, -1));
 
         ClearBtn.setBackground(new java.awt.Color(102, 0, 0));
         ClearBtn.setFont(new java.awt.Font("Cafe Francoise", 0, 18)); // NOI18N
@@ -179,7 +182,7 @@ public class Inventory extends javax.swing.JPanel {
                 ClearBtnActionPerformed(evt);
             }
         });
-        add(ClearBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 320, 190, -1));
+        add(ClearBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 320, 160, -1));
 
         Add_Btn.setBackground(new java.awt.Color(102, 0, 0));
         Add_Btn.setFont(new java.awt.Font("Cafe Francoise", 0, 18)); // NOI18N
@@ -191,7 +194,7 @@ public class Inventory extends javax.swing.JPanel {
                 Add_BtnActionPerformed(evt);
             }
         });
-        add(Add_Btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 50, 450, 40));
+        add(Add_Btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 50, 470, 40));
 
         jPanel2.setBackground(new java.awt.Color(255, 102, 0));
 
@@ -226,10 +229,22 @@ public class Inventory extends javax.swing.JPanel {
 
         jPanel2.add(jScrollPane1);
 
-        add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 100, 450, 450));
+        add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 100, 470, 450));
 
         AddItem_txt.setBackground(new java.awt.Color(255, 102, 0));
         add(AddItem_txt, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 60, 400, 30));
+
+        Delete_btn.setBackground(new java.awt.Color(102, 0, 0));
+        Delete_btn.setFont(new java.awt.Font("Cafe Francoise", 0, 18)); // NOI18N
+        Delete_btn.setForeground(new java.awt.Color(255, 204, 0));
+        Delete_btn.setText("Delete");
+        Delete_btn.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        Delete_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Delete_btnActionPerformed(evt);
+            }
+        });
+        add(Delete_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 320, 160, -1));
 
         Additem_Btn.setBackground(new java.awt.Color(102, 0, 0));
         Additem_Btn.setFont(new java.awt.Font("Cafe Francoise", 0, 18)); // NOI18N
@@ -241,7 +256,7 @@ public class Inventory extends javax.swing.JPanel {
                 Additem_BtnActionPerformed(evt);
             }
         });
-        add(Additem_Btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 320, 190, -1));
+        add(Additem_Btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 320, 170, -1));
 
         ExpiryDtePck.setBackground(new java.awt.Color(255, 102, 0));
         add(ExpiryDtePck, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 240, 400, 30));
@@ -260,7 +275,6 @@ public class Inventory extends javax.swing.JPanel {
         String ExpiryDateConverted = df.format(Expirydate);
         double Quantity = Double.parseDouble(Quan_txt.getText());
         String Unit = Unit_Txt.getText();
-        String Name1 = AddItem_txt.getText();
         String qrry = "UPDATE inventory SET "
                  + "Inv_Quantity = " + Quantity +","
                  + "Inv_Unit = \"" +Unit +"\","
@@ -270,7 +284,7 @@ public class Inventory extends javax.swing.JPanel {
         GetInvList();
         setTable();
         }
-        catch(Exception ex){
+        catch(HeadlessException | ClassNotFoundException | NumberFormatException | SQLException ex){
             JOptionPane.showMessageDialog(new JRootPane(),ex);
         }
     }//GEN-LAST:event_Update_btnActionPerformed
@@ -305,7 +319,7 @@ public class Inventory extends javax.swing.JPanel {
             }
         }
         }
-        catch(Exception ex){
+        catch(NumberFormatException ex){
             JOptionPane.showMessageDialog(new JRootPane(),ex);
         }
     }//GEN-LAST:event_Item_boxActionPerformed
@@ -319,7 +333,7 @@ public class Inventory extends javax.swing.JPanel {
         Item_box.setVisible(true);
         try {
             
-            if(AddItem_txt.getText() == "")
+            if("".equals(AddItem_txt.getText()))
                 return;
             
             Class.forName("java.sql.Driver");
@@ -364,11 +378,17 @@ public class Inventory extends javax.swing.JPanel {
         try{ 
             if (evt.getClickCount() == 2 && evt.getButton() == java.awt.event.MouseEvent.BUTTON1) {
             
-            javax.swing.JTable target = (javax.swing.JTable)evt.getSource();
-            int row = target.getSelectedRow();            
-            
-            String invName = (String) target.getValueAt(row, 0); // Assuming Inv_name is in the second column
-            
+                javax.swing.JTable target = (javax.swing.JTable)evt.getSource();
+                int row = target.getSelectedRow();            
+                String invName = (String) target.getValueAt(row, 0); // Assuming Inv_name is in the second column
+                ComboBoxModel<String> model = Item_box.getModel();
+                for (int i = 0; i < model.getSize(); i++) {
+                    String item = model.getElementAt(i).split("-")[1].trim();
+                    if(item.equals(invName)){
+                        System.out.println("Trye");
+                        Item_box.setSelectedIndex(i);
+                    }
+                }
             
             
             
@@ -381,6 +401,35 @@ public class Inventory extends javax.swing.JPanel {
         }
         
     }//GEN-LAST:event_jTable1MouseClicked
+
+    private void Delete_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Delete_btnActionPerformed
+        // TODO add your handling code here:
+        int dialogResult = JOptionPane.showConfirmDialog(new JRootPane(),
+                "Are you sure you want to delete the data?",
+                "Delete Confirmation",JOptionPane.YES_NO_OPTION);
+        if(dialogResult == JOptionPane.NO_OPTION)
+            return;
+        try{
+        Class.forName("java.sql.Driver");
+        Connection conn = DriverManager.getConnection(sql.sqlConnection,sql.sqlUser,sql.sqlPass);
+        Statement stmt = conn.createStatement();
+        int InvID = Integer.parseInt(Item_box.getSelectedItem().toString().split(" - ")[0]);
+        //DELETE FROM inventory WHERE `inventory`.`Inv_ID` = 25
+//        String qrry = "UPDATE inventory SET "
+//                 + "Inv_Quantity = " + Quantity +","
+//                 + "Inv_Unit = \"" +Unit +"\","
+//                 + "Expiry_date = '" + ExpiryDateConverted +"' WHERE Inv_ID = "+InvID;
+        String qrry = "DELETE FROM inventory WHERE `inventory`.`Inv_ID` = "+InvID ;
+        stmt.executeUpdate(qrry);
+        JOptionPane.showMessageDialog(new JRootPane(), "Data Deleted Succesfully");
+        GetInvList();
+        setTable();
+        setCombobox();
+        }
+        catch(HeadlessException | ClassNotFoundException | NumberFormatException | SQLException ex){
+            JOptionPane.showMessageDialog(new JRootPane(),ex);
+        }
+    }//GEN-LAST:event_Delete_btnActionPerformed
     private void clearData(){
         LocalDate dateNow = LocalDate.now();
         AddItem_txt.setText("");
@@ -394,6 +443,7 @@ public class Inventory extends javax.swing.JPanel {
     private javax.swing.JButton Add_Btn;
     private javax.swing.JButton Additem_Btn;
     private javax.swing.JButton ClearBtn;
+    private javax.swing.JButton Delete_btn;
     private com.toedter.calendar.JDateChooser ExpiryDtePck;
     private javax.swing.JComboBox<String> Item_box;
     private javax.swing.JTextField Quan_txt;
