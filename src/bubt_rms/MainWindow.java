@@ -37,6 +37,8 @@ public class MainWindow extends javax.swing.JFrame {
     }
     
     
+    public Inventory Inv1 = new Inventory();
+    public Dashboard dashboard1 = new Dashboard(Inv1);
     private void panel_selection(String panels){
         
         dashboard1.setVisible(("Dash".equals(panels)));
@@ -325,7 +327,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         jLayeredPane1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 310, 1020));
 
-        jPanel13.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel13.setBackground(new java.awt.Color(255, 102, 0));
         jPanel13.setLayout(new javax.swing.OverlayLayout(jPanel13));
         jLayeredPane1.add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 80, 1430, 1020));
         jPanel13.add(dashboard1);
@@ -479,8 +481,7 @@ public class MainWindow extends javax.swing.JFrame {
         UsrConfPnl.setBackground(new java.awt.Color(35, 35, 35));
     }//GEN-LAST:event_UsrConfPnlMouseExited
 
-    public Dashboard dashboard1 = new Dashboard();
-    public Inventory Inv1 = new Inventory();
+   
     
    
     /**
