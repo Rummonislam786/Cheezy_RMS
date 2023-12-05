@@ -6,6 +6,7 @@ package bubt_rms;
 
 import bubt_rms.Panels.Dashboard;
 import bubt_rms.Panels.Inventory;
+import bubt_rms.Panels.MenuItemDes;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javax.swing.JPanel;
@@ -38,11 +39,14 @@ public class MainWindow extends javax.swing.JFrame {
     
     
     public Inventory Inv1 = new Inventory();
-    public Dashboard dashboard1 = new Dashboard(Inv1);
+    public MenuItemDes menuitem1 = new MenuItemDes();
+    public Dashboard dashboard1 = new Dashboard(Inv1,menuitem1);
+    
     private void panel_selection(String panels){
         
         dashboard1.setVisible(("Dash".equals(panels)));
         Inv1.setVisible(("invn".equals(panels)));
+        menuitem1.setVisible(("mnui".equals(panels)));
 //        Staff_management.setVisible(("staf".equals(panels)));
 //        Reservation_maangement.setVisible(("resv".equals(panels)));
 //        User_Configuration.setVisible(("conf".equals(panels)));

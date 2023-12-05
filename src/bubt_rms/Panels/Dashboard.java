@@ -19,14 +19,17 @@ public class Dashboard extends javax.swing.JPanel {
         initComponents();
     }
     static Inventory Inv1;
-    public Dashboard(Inventory inv){
+    static MenuItemDes Mnuitm1;
+    public Dashboard(Inventory inv,MenuItemDes mnuitm){
         Inv1 = inv;
+        Mnuitm1 = mnuitm;
         initComponents();
     }
     private void panel_selection(String panels){
         
             
             Inv1.setVisible(("invn".equals(panels)));
+            Mnuitm1.setVisible(("mnui".equals(panels)));
     //      Staff_management.setVisible(("staf".equals(panels)));
     //      Reservation_maangement.setVisible(("resv".equals(panels)));
     //      User_Configuration.setVisible(("conf".equals(panels)));
