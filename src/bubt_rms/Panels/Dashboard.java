@@ -20,16 +20,20 @@ public class Dashboard extends javax.swing.JPanel {
     }
     static Inventory Inv1;
     static MenuItemDes Mnuitm1;
-    public Dashboard(Inventory inv,MenuItemDes mnuitm){
+    static OrderItems ordr;
+    public Dashboard(Inventory inv,MenuItemDes mnuitm,OrderItems ordrItms){
         Inv1 = inv;
         Mnuitm1 = mnuitm;
+        ordr = ordrItms;
         initComponents();
+        panel_selection("dash");
     }
     private void panel_selection(String panels){
         
-            
+            this.setVisible("dash".equals(panels));
             Inv1.setVisible(("invn".equals(panels)));
             Mnuitm1.setVisible(("mnui".equals(panels)));
+            ordr.setVisible(("ordr".equals(panels)));
     //      Staff_management.setVisible(("staf".equals(panels)));
     //      Reservation_maangement.setVisible(("resv".equals(panels)));
     //      User_Configuration.setVisible(("conf".equals(panels)));
@@ -70,6 +74,9 @@ public class Dashboard extends javax.swing.JPanel {
         jLabel2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 51), 3, true));
         jLabel2.setOpaque(true);
         jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jLabel2MouseEntered(evt);
             }
@@ -107,6 +114,9 @@ public class Dashboard extends javax.swing.JPanel {
         jLabel4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 51), 3, true));
         jLabel4.setOpaque(true);
         jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel4MouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jLabel4MouseEntered(evt);
             }
@@ -285,9 +295,19 @@ public class Dashboard extends javax.swing.JPanel {
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
         // TODO add your handling code here:
-        Inv1.setVisible(true);
-        this.setVisible(false);
+        panel_selection("invn");
     }//GEN-LAST:event_jLabel3MouseClicked
+
+    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
+        // TODO add your handling code here:
+        panel_selection("mnui");
+        
+    }//GEN-LAST:event_jLabel4MouseClicked
+
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+        // TODO add your handling code here:
+        panel_selection("ordr");
+    }//GEN-LAST:event_jLabel2MouseClicked
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

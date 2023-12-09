@@ -7,6 +7,8 @@ package bubt_rms;
 import bubt_rms.Panels.Dashboard;
 import bubt_rms.Panels.Inventory;
 import bubt_rms.Panels.MenuItemDes;
+import bubt_rms.Panels.OrderItems;
+
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javax.swing.JPanel;
@@ -25,6 +27,7 @@ public class MainWindow extends javax.swing.JFrame {
     
     
     public MainWindow() {
+        
         initComponents();
         
         setSize(screenSize);
@@ -36,17 +39,22 @@ public class MainWindow extends javax.swing.JFrame {
         
         
     }
-    
+   
     
     public Inventory Inv1 = new Inventory();
     public MenuItemDes menuitem1 = new MenuItemDes();
-    public Dashboard dashboard1 = new Dashboard(Inv1,menuitem1);
+    /**
+     *
+     */
+    public OrderItems ordritms = new OrderItems();
+    public Dashboard dashboard1 = new Dashboard(Inv1,menuitem1,ordritms);
     
     private void panel_selection(String panels){
         
         dashboard1.setVisible(("Dash".equals(panels)));
         Inv1.setVisible(("invn".equals(panels)));
         menuitem1.setVisible(("mnui".equals(panels)));
+        ordritms.setVisible(("ordr".equals(panels)));
 //        Staff_management.setVisible(("staf".equals(panels)));
 //        Reservation_maangement.setVisible(("resv".equals(panels)));
 //        User_Configuration.setVisible(("conf".equals(panels)));
@@ -212,7 +220,7 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel8.setText("PAYMENTS");
         PaymPnl.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 280, -1));
 
-        jPanel2.add(PaymPnl, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 310, 60));
+        jPanel2.add(PaymPnl, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 380, 310, 60));
 
         ResrvPnl.setBackground(new java.awt.Color(35, 35, 35));
         ResrvPnl.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -281,7 +289,7 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel11.setText("OrderS");
         OrderPnl.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 280, -1));
 
-        jPanel2.add(OrderPnl, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 380, 310, 60));
+        jPanel2.add(OrderPnl, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 310, 60));
 
         StafPnl.setBackground(new java.awt.Color(35, 35, 35));
         StafPnl.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -333,9 +341,11 @@ public class MainWindow extends javax.swing.JFrame {
 
         jPanel13.setBackground(new java.awt.Color(255, 102, 0));
         jPanel13.setLayout(new javax.swing.OverlayLayout(jPanel13));
-        jLayeredPane1.add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 80, 1430, 1020));
+        jLayeredPane1.add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 80, 1630, 1020));
         jPanel13.add(dashboard1);
         jPanel13.add(Inv1);
+        jPanel13.add(menuitem1);
+        jPanel13.add(ordritms);
 
         getContentPane().add(jLayeredPane1, java.awt.BorderLayout.CENTER);
 
@@ -379,16 +389,6 @@ public class MainWindow extends javax.swing.JFrame {
         InvPnl.setBackground(new java.awt.Color(35, 35, 35));
     }//GEN-LAST:event_InvPnlMouseExited
 
-    private void MnuItmPnlMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MnuItmPnlMouseClicked
-        // TODO add your handling code here:
-      panel_selection("mnui");
-    }//GEN-LAST:event_MnuItmPnlMouseClicked
-
-    private void MnuItmPnlMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MnuItmPnlMouseEntered
-        // TODO add your handling code here:
-        MnuItmPnl.setBackground(new java.awt.Color(0, 0, 0));
-    }//GEN-LAST:event_MnuItmPnlMouseEntered
-
     private void PaymPnlMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PaymPnlMouseClicked
         // TODO add your handling code here:
         panel_selection("paym");
@@ -418,11 +418,6 @@ public class MainWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
         panel_selection("resv");
     }//GEN-LAST:event_ResrvPnlMouseClicked
-
-    private void MnuItmPnlMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MnuItmPnlMouseExited
-        // TODO add your handling code here:
-        MnuItmPnl.setBackground(new java.awt.Color(35, 35, 35));
-    }//GEN-LAST:event_MnuItmPnlMouseExited
 
     private void CustInfPnlMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CustInfPnlMouseClicked
         // TODO add your handling code here:
@@ -484,6 +479,21 @@ public class MainWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
         UsrConfPnl.setBackground(new java.awt.Color(35, 35, 35));
     }//GEN-LAST:event_UsrConfPnlMouseExited
+
+    private void MnuItmPnlMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MnuItmPnlMouseExited
+        // TODO add your handling code here:
+        MnuItmPnl.setBackground(new java.awt.Color(35, 35, 35));
+    }//GEN-LAST:event_MnuItmPnlMouseExited
+
+    private void MnuItmPnlMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MnuItmPnlMouseEntered
+        // TODO add your handling code here:
+        MnuItmPnl.setBackground(new java.awt.Color(0, 0, 0));
+    }//GEN-LAST:event_MnuItmPnlMouseEntered
+
+    private void MnuItmPnlMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MnuItmPnlMouseClicked
+        // TODO add your handling code here:
+        panel_selection("mnui");
+    }//GEN-LAST:event_MnuItmPnlMouseClicked
 
    
     

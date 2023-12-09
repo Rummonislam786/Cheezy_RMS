@@ -6,8 +6,13 @@ package bubt_rms.Panels;
 import Models.MenuItem_Model;
 import Models.MenuItem_Model;
 import bubt_rms.SqlConn;
+import com.mysql.cj.jdbc.Blob;
 import java.awt.HeadlessException;
 import java.awt.Image;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -28,8 +33,9 @@ import java.util.Calendar;
 import java.util.Date;
 import javax.swing.ComboBoxModel;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.table.DefaultTableModel;
-
+import java.sql.PreparedStatement;
 
 /**
  *
@@ -48,7 +54,40 @@ public class MenuItemDes extends javax.swing.JPanel {
         setTable();
         setCombobox();
     }
-    
+    private byte[] selectedImageData;
+    private static final int MAX_IMAGE_SIZE_KB = 64;
+    private void selectImage() {
+        JFileChooser fileChooser = new JFileChooser();
+        int result = fileChooser.showOpenDialog(this);
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            try {
+                selectedImageData = readImage(selectedFile);
+
+                // Check image size
+                if (selectedImageData.length <= MAX_IMAGE_SIZE_KB * 1024) {
+                    ImageIcon imageIcon = new ImageIcon(selectedImageData);
+                    Image image = imageIcon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+                    imageIcon = new ImageIcon(image);
+                    ImageLbl.setIcon(imageIcon);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Selected image size exceeds the limit (64KB).");
+                    selectedImageData = null;
+                    ImageLbl.setIcon(null);
+                }
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(new JRootPane(),ex);
+            }
+        }
+    }
+    private byte[] readImage(File file) throws IOException {
+        try (FileInputStream fis = new FileInputStream(file)) {
+            byte[] imageData = new byte[(int) file.length()];
+            fis.read(imageData);
+            return imageData;
+        }
+    }
     public MenuItemDes(String A){
         super();
     }
@@ -82,7 +121,7 @@ public class MenuItemDes extends javax.swing.JPanel {
             
         }
         catch(Exception ex){
-            System.out.println(ex);
+            JOptionPane.showMessageDialog(new JRootPane(),ex);
         }
     }
     private void GetMenuItemList(){
@@ -130,6 +169,7 @@ public class MenuItemDes extends javax.swing.JPanel {
         Item_Description = new javax.swing.JTextArea();
         jLabel5 = new javax.swing.JLabel();
         ImageLbl = new javax.swing.JLabel();
+        Add_Btn1 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 102, 0));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -199,14 +239,14 @@ public class MenuItemDes extends javax.swing.JPanel {
         Add_Btn.setBackground(new java.awt.Color(102, 0, 0));
         Add_Btn.setFont(new java.awt.Font("Cafe Francoise", 0, 18)); // NOI18N
         Add_Btn.setForeground(new java.awt.Color(255, 204, 0));
-        Add_Btn.setText("Add Item");
+        Add_Btn.setText("Add Menu Item");
         Add_Btn.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         Add_Btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Add_BtnActionPerformed(evt);
             }
         });
-        add(Add_Btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 50, 470, 40));
+        add(Add_Btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 50, 480, 40));
 
         jPanel2.setBackground(new java.awt.Color(255, 102, 0));
 
@@ -282,10 +322,23 @@ public class MenuItemDes extends javax.swing.JPanel {
         jLabel5.setText("Image");
         add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(69, 370, 50, -1));
 
+        ImageLbl.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         ImageLbl.setMaximumSize(new java.awt.Dimension(250, 250));
         ImageLbl.setMinimumSize(new java.awt.Dimension(250, 250));
         ImageLbl.setPreferredSize(new java.awt.Dimension(250, 250));
         add(ImageLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 360, 150, 150));
+
+        Add_Btn1.setBackground(new java.awt.Color(102, 0, 0));
+        Add_Btn1.setFont(new java.awt.Font("Cafe Francoise", 0, 18)); // NOI18N
+        Add_Btn1.setForeground(new java.awt.Color(255, 204, 0));
+        Add_Btn1.setText("Choose an Image");
+        Add_Btn1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        Add_Btn1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Add_Btn1ActionPerformed(evt);
+            }
+        });
+        add(Add_Btn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 410, 240, 40));
     }// </editor-fold>//GEN-END:initComponents
     
     private void Update_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Update_btnActionPerformed
@@ -294,11 +347,12 @@ public class MenuItemDes extends javax.swing.JPanel {
         Class.forName("java.sql.Driver");
         Connection conn = DriverManager.getConnection(sql.sqlConnection,sql.sqlUser,sql.sqlPass);
         Statement stmt = conn.createStatement();
-        int InvID = Integer.parseInt(ItemName_box.getSelectedItem().toString().split(" - ")[0]);
+        int menuItemID = Integer.parseInt(ItemName_box.getSelectedItem().toString().split(" - ")[0]);
        
         
         double Quantity = Double.parseDouble(ItemPrice_txt.getText());
         String Unit = ItemCategory_txt.getText();
+        
 //        String qrry = 
 //                "UPDATE inventory SET "
 //                + "Inv_Quantity = " + Quantity +","
@@ -341,7 +395,7 @@ public class MenuItemDes extends javax.swing.JPanel {
             if(ItemID == item.getItem_ID()){
                 ItemPrice_txt.setText(Double.toString(item.getItem_Price()));
                 ItemCategory_txt.setText(item.getItem_Category());
-                Item_Description.setText(item.getItem_Category());
+                Item_Description.setText(item.getItem_Description());
                 byte[] imageData = item.getItem_img();
                 ImageIcon imageIcon = new ImageIcon(imageData);
                 Image image = imageIcon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
@@ -357,6 +411,7 @@ public class MenuItemDes extends javax.swing.JPanel {
 
     private void Additem_BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Additem_BtnActionPerformed
         // TODO add your handling code here:
+        
         Add_Btn.setEnabled(true);
         AddItem_txt.setVisible(false);
         Additem_Btn.setVisible(false);
@@ -371,26 +426,29 @@ public class MenuItemDes extends javax.swing.JPanel {
             Connection conn = DriverManager.getConnection(sql.sqlConnection,sql.sqlUser,sql.sqlPass);
             Statement stmt = conn.createStatement();
             String pattern = "yyyy-MM-dd";
-
             DateFormat df = new SimpleDateFormat(pattern);
-
-             
-            
-            
             
             String Name = AddItem_txt.getText();
-            double Quantity = Double.parseDouble(ItemPrice_txt.getText());
-            String Unit = ItemCategory_txt.getText();
+            double Price = Double.parseDouble(ItemPrice_txt.getText());
+            String Category = ItemCategory_txt.getText();
+            String Description = Item_Description.getText();
+
+//          String image = new String(selectedImageData, StandardCharsets.UTF_8);
+            byte[] image = selectedImageData;
+            if(Name == "" || Name == null || image == null)
+                return;
             
-            String Name1 = AddItem_txt.getText();
+           String qrry = "INSERT INTO menu_item (Item_Name, Item_Price, Category, Description, Item_Img) VALUES (?, ?, ?, ?, ?)";
+
+            PreparedStatement pstmt = conn.prepareStatement(qrry);
             
-            String qrry = "Insert into inventory(Inv_Name,Inv_Quantity,Inv_Unit,Expiry_date) values("
-                    +"'" + Name + "',"
-                    +"'" + Quantity + "',"
-                    +"'" + Unit + "',"
-                    + ")";
-                 
-            stmt.executeUpdate(qrry);
+            pstmt.setString(1, Name);
+            pstmt.setDouble(2, Price);
+            pstmt.setString(3, Category);
+            pstmt.setString(4, Description);
+            pstmt.setBytes(5, image);
+            
+            pstmt.executeUpdate();
             JOptionPane.showMessageDialog(new JRootPane(), "Data Added Succesfully");
             clearData();
             GetMenuItemList();
@@ -399,6 +457,7 @@ public class MenuItemDes extends javax.swing.JPanel {
              }catch(ClassNotFoundException| DateTimeException | NumberFormatException|SQLException ex){
                 JOptionPane.showMessageDialog(new JRootPane(),ex);
                 System.out.println(ex);
+                
         }
         
     }//GEN-LAST:event_Additem_BtnActionPerformed
@@ -443,14 +502,20 @@ public class MenuItemDes extends javax.swing.JPanel {
         Class.forName("java.sql.Driver");
         Connection conn = DriverManager.getConnection(sql.sqlConnection,sql.sqlUser,sql.sqlPass);
         Statement stmt = conn.createStatement();
-        int InvID = Integer.parseInt(ItemName_box.getSelectedItem().toString().split(" - ")[0]);
+        int mnuitmID = Integer.parseInt(ItemName_box.getSelectedItem().toString().split(" - ")[0]);
+        if(mnuitmID == 0)
+            return;
+        String qrry = "DELETE FROM menu_item where Item_ID = ?";
+        PreparedStatement pstmt = conn.prepareStatement(qrry);
+        pstmt.setInt(1, mnuitmID);  
+        pstmt.executeUpdate();
         //DELETE FROM inventory WHERE `inventory`.`Inv_ID` = 25
 //        String qrry = "UPDATE inventory SET "
 //                 + "Inv_Quantity = " + Quantity +","
 //                 + "Inv_Unit = \"" +Unit +"\","
 //                 + "Expiry_date = '" + ExpiryDateConverted +"' WHERE Inv_ID = "+InvID;
-        String qrry = "DELETE FROM inventory WHERE `inventory`.`Inv_ID` = "+InvID ;
-        stmt.executeUpdate(qrry);
+//        String qrry = "DELETE FROM inventory WHERE `inventory`.`Inv_ID` = "+InvID ;
+//        stmt.executeUpdate(qrry);
         JOptionPane.showMessageDialog(new JRootPane(), "Data Deleted Succesfully");
         GetMenuItemList();
         setTable();
@@ -460,17 +525,24 @@ public class MenuItemDes extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(new JRootPane(),ex);
         }
     }//GEN-LAST:event_Delete_btnActionPerformed
+
+    private void Add_Btn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Add_Btn1ActionPerformed
+        // TODO add your handling code here:
+        selectImage();
+    }//GEN-LAST:event_Add_Btn1ActionPerformed
     private void clearData(){
         
         AddItem_txt.setText("");
         ItemPrice_txt.setText("");
         ItemCategory_txt.setText("");
-        
+        Item_Description.setText("");
+        ImageLbl.setIcon(null);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField AddItem_txt;
     private javax.swing.JButton Add_Btn;
+    private javax.swing.JButton Add_Btn1;
     private javax.swing.JButton Additem_Btn;
     private javax.swing.JButton ClearBtn;
     private javax.swing.JButton Delete_btn;

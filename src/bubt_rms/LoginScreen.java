@@ -4,6 +4,7 @@
  */
 package bubt_rms;
 
+
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -17,6 +18,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -282,13 +285,14 @@ public class LoginScreen extends javax.swing.JFrame {
         // TODO add your handling code here:
         String UserName = new String(EmailTextField.getText());
         String pass = new String(PasswordTextField1.getPassword());
-        LoginCall(UserName, pass);
+      
+            LoginCall(UserName, pass);
 //        if("Rummon".equals(EmailTextField.getText()) && "12345".equals(pass)){
 //            
 //            this.dispose();
 //            MainWindow_user aframe = new MainWindow_user();
 //            aframe.setVisible(true);
-//                
+//
 //            
 //        }
 //        else if("Admin".equals(EmailTextField.getText()) && "21213".equals(pass))
@@ -304,6 +308,7 @@ public class LoginScreen extends javax.swing.JFrame {
 //    "Unsuccessful log in",
 //    JOptionPane.PLAIN_MESSAGE);
 //        }
+        
 
 
     }//GEN-LAST:event_jButton2ActionPerformed
