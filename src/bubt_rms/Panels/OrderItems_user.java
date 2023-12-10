@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package bubt_rms.Panels;
+import bubt_rms.Panels.*;
 import Models.InventoryModel;
 import Models.MenuItem_Model;
 import Models.OrderItemsModel;
@@ -48,19 +49,19 @@ import org.json.JSONObject;
  *
  * @author islam
  */
-public class OrderItems extends javax.swing.JPanel {
+public class OrderItems_user extends javax.swing.JPanel {
 
     /**
      * Creates new form Inventory
      */
-    public OrderItems()  {
+    public OrderItems_user()  {
         initComponents();
 //        AddItem_txt.setVisible(false);
         Additem_Btn.setVisible(false);
         try {
             GetInvList();
         } catch (JSONException ex) {
-            Logger.getLogger(OrderItems.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OrderItems_user.class.getName()).log(Level.SEVERE, null, ex);
         }
         GetStaffList();
         GetReserveList();
@@ -71,7 +72,7 @@ public class OrderItems extends javax.swing.JPanel {
         
     }
     
-    public OrderItems(String A){
+    public OrderItems_user(String A){
         super();
     }
 
@@ -286,7 +287,6 @@ public class OrderItems extends javax.swing.JPanel {
         Update_btn = new javax.swing.JButton();
         ClearBtn = new javax.swing.JButton();
         Add_Btn = new javax.swing.JButton();
-        Delete_btn = new javax.swing.JButton();
         Additem_Btn = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
@@ -347,18 +347,6 @@ public class OrderItems extends javax.swing.JPanel {
             }
         });
         add(Add_Btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 50, 470, 40));
-
-        Delete_btn.setBackground(new java.awt.Color(102, 0, 0));
-        Delete_btn.setFont(new java.awt.Font("Cafe Francoise", 0, 18)); // NOI18N
-        Delete_btn.setForeground(new java.awt.Color(255, 204, 0));
-        Delete_btn.setText("Delete");
-        Delete_btn.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        Delete_btn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Delete_btnActionPerformed(evt);
-            }
-        });
-        add(Delete_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 630, 170, -1));
 
         Additem_Btn.setBackground(new java.awt.Color(102, 0, 0));
         Additem_Btn.setFont(new java.awt.Font("Cafe Francoise", 0, 18)); // NOI18N
@@ -565,9 +553,9 @@ public class OrderItems extends javax.swing.JPanel {
         setTable();
         }
         catch(HeadlessException | ClassNotFoundException | NumberFormatException | SQLException ex){
-            Logger.getLogger(OrderItems.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OrderItems_user.class.getName()).log(Level.SEVERE, null, ex);
         } catch (JSONException ex) {
-            Logger.getLogger(OrderItems.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OrderItems_user.class.getName()).log(Level.SEVERE, null, ex);
         } 
     }//GEN-LAST:event_Update_btnActionPerformed
 
@@ -576,17 +564,6 @@ public class OrderItems extends javax.swing.JPanel {
         clearData();
         Item_cbx.setSelectedIndex(0);
     }//GEN-LAST:event_ClearBtnActionPerformed
-
-    private void Add_BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Add_BtnActionPerformed
-        // TODO add your handling code here:
-        Add_Btn.setEnabled(false);
-//        AddItem_txt.setVisible(true);
-        Additem_Btn.setVisible(true);
-        Update_btn.setVisible(false);
-        Item_cbx.setVisible(false);
-        clearData();
-        
-    }//GEN-LAST:event_Add_BtnActionPerformed
 
     private void Item_cbxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Item_cbxActionPerformed
 //        try{
@@ -606,91 +583,6 @@ public class OrderItems extends javax.swing.JPanel {
 //            JOptionPane.showMessageDialog(new JRootPane(),ex);
 //        }
     }//GEN-LAST:event_Item_cbxActionPerformed
-
-    private void Additem_BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Additem_BtnActionPerformed
-        // TODO add your handling code here:
-        Add_Btn.setEnabled(true);
-//        AddItem_txt.setVisible(false);
-        Additem_Btn.setVisible(false);
-        Update_btn.setVisible(true);
-        Item_cbx.setVisible(true);
-        
-        try {
-            
-//          if("".equals(AddItem_txt.getText()))
-//                return;
-            
-            Class.forName("java.sql.Driver");
-            Connection conn = DriverManager.getConnection(sql.sqlConnection,sql.sqlUser,sql.sqlPass);
-            Statement stmt = conn.createStatement();
-            String pattern = "yyyy-MM-dd";
-
-            DateFormat df = new SimpleDateFormat(pattern);
-
-//            Date Expirydate = ExpiryDtePck.getDate();     
-            
-//            String ExpiryDateConverted = df.format(Expirydate);
-            
-//            String Name = AddItem_txt.getText();
-            double Quantity = Double.parseDouble(Quan_txt.getText());
-//            String Unit = Unit_Txt.getText();
-            
-//            String Name1 = AddItem_txt.getText();
-            
-//            String qrry = "Insert into inventory(Inv_Name,Inv_Quantity,Inv_Unit,Expiry_date) values("
-//                    +"'" + Name + "',"
-//                    +"'" + Quantity + "',"
-//                    +"'" + Unit + "',"
-//                    +"'" + ExpiryDateConverted + "'"
-//                    + ")";
-//                 
-//            stmt.executeUpdate(qrry);
-            JOptionPane.showMessageDialog(new JRootPane(), "Data Added Succesfully");
-            clearData();
-            GetInvList();
-            setTable();
-            setCombobox();
-             }catch(ClassNotFoundException| DateTimeException | NumberFormatException|SQLException ex){
-                JOptionPane.showMessageDialog(new JRootPane(),ex);
-                System.out.println(ex);
-        } catch (JSONException ex) {
-            Logger.getLogger(OrderItems.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-        
-    }//GEN-LAST:event_Additem_BtnActionPerformed
-
-    private void Delete_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Delete_btnActionPerformed
-        // TODO add your handling code here:
-        int dialogResult = JOptionPane.showConfirmDialog(new JRootPane(),
-                "Are you sure you want to delete the data?",
-                "Delete Confirmation",JOptionPane.YES_NO_OPTION);
-        if(dialogResult == JOptionPane.NO_OPTION)
-            return;
-        try{
-        Class.forName("java.sql.Driver");
-        Connection conn = DriverManager.getConnection(sql.sqlConnection,sql.sqlUser,sql.sqlPass);
-        Statement stmt = conn.createStatement();
-        int InvID = Integer.parseInt(Item_cbx.getSelectedItem().toString().split(" - ")[0]);
-        //DELETE FROM inventory WHERE `inventory`.`Inv_ID` = 25
-//        String qrry = "UPDATE inventory SET "
-//                 + "Inv_Quantity = " + Quantity +","
-//                 + "Inv_Unit = \"" +Unit +"\","
-//                 + "Expiry_date = '" + ExpiryDateConverted +"' WHERE Inv_ID = "+InvID;
-        String qrry = "DELETE FROM inventory WHERE `inventory`.`Inv_ID` = "+InvID ;
-        stmt.executeUpdate(qrry);
-        JOptionPane.showMessageDialog(new JRootPane(), "Data Deleted Succesfully");
-            try {
-                GetInvList();
-            } catch (JSONException ex) {
-                Logger.getLogger(OrderItems.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        setTable();
-        setCombobox();
-        }
-        catch(HeadlessException | ClassNotFoundException | NumberFormatException | SQLException ex){
-            JOptionPane.showMessageDialog(new JRootPane(),ex);
-        } 
-    }//GEN-LAST:event_Delete_btnActionPerformed
 
     private void AddTableITem_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddTableITem_btnActionPerformed
         // TODO add your handling code here:
@@ -778,6 +670,69 @@ public class OrderItems extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_Order_cbxActionPerformed
+
+    private void Add_BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Add_BtnActionPerformed
+        // TODO add your handling code here:
+        Add_Btn.setEnabled(false);
+        //        AddItem_txt.setVisible(true);
+        Additem_Btn.setVisible(true);
+        Update_btn.setVisible(false);
+        Item_cbx.setVisible(false);
+        clearData();
+
+    }//GEN-LAST:event_Add_BtnActionPerformed
+
+    private void Additem_BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Additem_BtnActionPerformed
+        // TODO add your handling code here:
+        Add_Btn.setEnabled(true);
+        //        AddItem_txt.setVisible(false);
+        Additem_Btn.setVisible(false);
+        Update_btn.setVisible(true);
+        Item_cbx.setVisible(true);
+
+        try {
+
+            //          if("".equals(AddItem_txt.getText()))
+            //                return;
+
+            Class.forName("java.sql.Driver");
+            Connection conn = DriverManager.getConnection(sql.sqlConnection,sql.sqlUser,sql.sqlPass);
+            Statement stmt = conn.createStatement();
+            String pattern = "yyyy-MM-dd";
+
+            DateFormat df = new SimpleDateFormat(pattern);
+
+            //            Date Expirydate = ExpiryDtePck.getDate();
+
+            //            String ExpiryDateConverted = df.format(Expirydate);
+
+            //            String Name = AddItem_txt.getText();
+            double Quantity = Double.parseDouble(Quan_txt.getText());
+            //            String Unit = Unit_Txt.getText();
+
+            //            String Name1 = AddItem_txt.getText();
+
+            //            String qrry = "Insert into inventory(Inv_Name,Inv_Quantity,Inv_Unit,Expiry_date) values("
+            //                    +"'" + Name + "',"
+            //                    +"'" + Quantity + "',"
+            //                    +"'" + Unit + "',"
+            //                    +"'" + ExpiryDateConverted + "'"
+            //                    + ")";
+            //
+            //            stmt.executeUpdate(qrry);
+            JOptionPane.showMessageDialog(new JRootPane(), "Data Added Succesfully");
+            clearData();
+            GetInvList();
+            setTable();
+            setCombobox();
+        }catch(ClassNotFoundException| DateTimeException | NumberFormatException|SQLException ex){
+            JOptionPane.showMessageDialog(new JRootPane(),ex);
+            System.out.println(ex);
+        } catch (JSONException ex) {
+            Logger.getLogger(OrderItems_user.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_Additem_BtnActionPerformed
     private void clearData(){
         LocalDate dateNow = LocalDate.now();
 //        AddItem_txt.setText("");
@@ -790,7 +745,6 @@ public class OrderItems extends javax.swing.JPanel {
     private javax.swing.JButton Add_Btn;
     private javax.swing.JButton Additem_Btn;
     private javax.swing.JButton ClearBtn;
-    private javax.swing.JButton Delete_btn;
     private javax.swing.JComboBox<String> Item_cbx;
     private javax.swing.JComboBox<String> Order_cbx;
     private javax.swing.JTextField Quan_txt;

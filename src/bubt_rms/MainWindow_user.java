@@ -5,6 +5,8 @@
 package bubt_rms;
 
 import bubt_rms.Panels.Dashboard;
+import bubt_rms.Panels.Inventory_user;
+import bubt_rms.Panels.MenuItemDes_user;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
@@ -29,6 +31,7 @@ public class MainWindow_user extends javax.swing.JFrame {
         
         
     }
+    
     
     
     private void panel_selection(String panels){
