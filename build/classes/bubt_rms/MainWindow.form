@@ -61,7 +61,7 @@
           </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="0" y="0" width="1740" height="-1"/>
+              <AbsoluteConstraints x="0" y="0" width="1940" height="-1"/>
             </Constraint>
           </Constraints>
 
@@ -560,7 +560,7 @@
             </Property>
           </Properties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jPanel13.add(dashboard1);&#xa;jPanel13.add(Inv1);&#xa;jPanel13.add(menuitem1);&#xa;jPanel13.add(ordritms);"/>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jPanel13.add(dashboard1);&#xa;jPanel13.add(Inv1);&#xa;jPanel13.add(menuitem1);&#xa;jPanel13.add(ordritms);&#xa;jPanel13.add(cust);&#xa;jPanel13.add(payment);"/>
           </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">

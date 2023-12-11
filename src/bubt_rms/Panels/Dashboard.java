@@ -18,13 +18,17 @@ public class Dashboard extends javax.swing.JPanel {
     public Dashboard() {
         initComponents();
     }
-    static Inventory Inv1;
+    static Inventory1 Inv1;
     static MenuItemDes Mnuitm1;
     static OrderItems ordr;
-    public Dashboard(Inventory inv,MenuItemDes mnuitm,OrderItems ordrItms){
+    static Customer cust;
+    static Payment paym;
+    public Dashboard(Inventory1 inv,MenuItemDes mnuitm,OrderItems ordrItms, Customer cust1,Payment paym1){
         Inv1 = inv;
         Mnuitm1 = mnuitm;
         ordr = ordrItms;
+        cust = cust1;
+        paym = paym1;
         initComponents();
         panel_selection("dash");
     }

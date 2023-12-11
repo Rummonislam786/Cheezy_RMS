@@ -32,12 +32,12 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author islam
  */
-public class Inventory extends javax.swing.JPanel {
+public class Tables extends javax.swing.JPanel {
 
     /**
      * Creates new form Inventory
      */
-    public Inventory() {
+    public Tables() {
         initComponents();
         AddItem_txt.setVisible(false);
         Additem_Btn.setVisible(false);
@@ -46,7 +46,7 @@ public class Inventory extends javax.swing.JPanel {
         setCombobox();
     }
     
-    public Inventory(String A){
+    public Tables(String A){
         super();
     }
 
@@ -111,7 +111,6 @@ public class Inventory extends javax.swing.JPanel {
         Quan_txt = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         Unit_Txt = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
         Update_btn = new javax.swing.JButton();
         ClearBtn = new javax.swing.JButton();
         Add_Btn = new javax.swing.JButton();
@@ -121,15 +120,14 @@ public class Inventory extends javax.swing.JPanel {
         AddItem_txt = new javax.swing.JTextField();
         Delete_btn = new javax.swing.JButton();
         Additem_Btn = new javax.swing.JButton();
-        ExpiryDtePck = new com.toedter.calendar.JDateChooser();
 
         setBackground(new java.awt.Color(255, 102, 0));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Cafe Francoise", 0, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 0));
-        jLabel1.setText("Quantity");
-        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, -1, -1));
+        jLabel1.setText("Seats");
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 120, -1, -1));
 
         Item_box.setBackground(new java.awt.Color(255, 102, 0));
         Item_box.addActionListener(new java.awt.event.ActionListener() {
@@ -141,24 +139,19 @@ public class Inventory extends javax.swing.JPanel {
 
         jLabel2.setFont(new java.awt.Font("Cafe Francoise", 0, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 0));
-        jLabel2.setText("Name of Item :");
-        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, -1, -1));
+        jLabel2.setText("Table");
+        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 60, -1, -1));
 
         Quan_txt.setBackground(new java.awt.Color(255, 102, 0));
         add(Quan_txt, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 120, 400, 30));
 
         jLabel3.setFont(new java.awt.Font("Cafe Francoise", 0, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 0));
-        jLabel3.setText("Unit");
-        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, -1, -1));
+        jLabel3.setText("Availability");
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, 90, -1));
 
         Unit_Txt.setBackground(new java.awt.Color(255, 102, 0));
         add(Unit_Txt, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 180, 400, 30));
-
-        jLabel4.setFont(new java.awt.Font("Cafe Francoise", 0, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 0));
-        jLabel4.setText("Expiry Date");
-        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 240, -1, -1));
 
         Update_btn.setBackground(new java.awt.Color(102, 0, 0));
         Update_btn.setFont(new java.awt.Font("Cafe Francoise", 0, 18)); // NOI18N
@@ -170,7 +163,7 @@ public class Inventory extends javax.swing.JPanel {
                 Update_btnActionPerformed(evt);
             }
         });
-        add(Update_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 320, 170, -1));
+        add(Update_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 250, 170, -1));
 
         ClearBtn.setBackground(new java.awt.Color(102, 0, 0));
         ClearBtn.setFont(new java.awt.Font("Cafe Francoise", 0, 18)); // NOI18N
@@ -182,7 +175,7 @@ public class Inventory extends javax.swing.JPanel {
                 ClearBtnActionPerformed(evt);
             }
         });
-        add(ClearBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 320, 160, -1));
+        add(ClearBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 250, 160, -1));
 
         Add_Btn.setBackground(new java.awt.Color(102, 0, 0));
         Add_Btn.setFont(new java.awt.Font("Cafe Francoise", 0, 18)); // NOI18N
@@ -244,7 +237,7 @@ public class Inventory extends javax.swing.JPanel {
                 Delete_btnActionPerformed(evt);
             }
         });
-        add(Delete_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 320, 160, -1));
+        add(Delete_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 250, 160, -1));
 
         Additem_Btn.setBackground(new java.awt.Color(102, 0, 0));
         Additem_Btn.setFont(new java.awt.Font("Cafe Francoise", 0, 18)); // NOI18N
@@ -256,10 +249,7 @@ public class Inventory extends javax.swing.JPanel {
                 Additem_BtnActionPerformed(evt);
             }
         });
-        add(Additem_Btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 320, 170, -1));
-
-        ExpiryDtePck.setBackground(new java.awt.Color(255, 102, 0));
-        add(ExpiryDtePck, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 240, 400, 30));
+        add(Additem_Btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 250, 170, -1));
     }// </editor-fold>//GEN-END:initComponents
     
     private void Update_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Update_btnActionPerformed
@@ -271,14 +261,15 @@ public class Inventory extends javax.swing.JPanel {
         int InvID = Integer.parseInt(Item_box.getSelectedItem().toString().split(" - ")[0]);
         String pattern = "yyyy-MM-dd";
         DateFormat df = new SimpleDateFormat(pattern);
-        Date Expirydate = ExpiryDtePck.getDate();     
-        String ExpiryDateConverted = df.format(Expirydate);
+        
+        
         double Quantity = Double.parseDouble(Quan_txt.getText());
         String Unit = Unit_Txt.getText();
         String qrry = "UPDATE inventory SET "
                  + "Inv_Quantity = " + Quantity +","
                  + "Inv_Unit = \"" +Unit +"\","
-                 + "Expiry_date = '" + ExpiryDateConverted +"' WHERE Inv_ID = "+InvID;
+                 
+                +"' WHERE Inv_ID = "+InvID;
         stmt.executeUpdate(qrry);
         JOptionPane.showMessageDialog(new JRootPane(), "Data Updated Succesfully");
         GetInvList();
@@ -315,7 +306,7 @@ public class Inventory extends javax.swing.JPanel {
             if(InvID == item.getInvID()){
                 Quan_txt.setText(Double.toString(item.getInv_Quantity()));
                 Unit_Txt.setText(item.Inv_unit);
-                ExpiryDtePck.setDate(Date.from(item.getExpiry_date().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+                
             }
         }
         }
@@ -343,9 +334,9 @@ public class Inventory extends javax.swing.JPanel {
 
             DateFormat df = new SimpleDateFormat(pattern);
 
-            Date Expirydate = ExpiryDtePck.getDate();     
+
             
-            String ExpiryDateConverted = df.format(Expirydate);
+
             
             String Name = AddItem_txt.getText();
             double Quantity = Double.parseDouble(Quan_txt.getText());
@@ -357,7 +348,7 @@ public class Inventory extends javax.swing.JPanel {
                     +"'" + Name + "',"
                     +"'" + Quantity + "',"
                     +"'" + Unit + "',"
-                    +"'" + ExpiryDateConverted + "'"
+                    
                     + ")";
                  
             stmt.executeUpdate(qrry);
@@ -435,7 +426,7 @@ public class Inventory extends javax.swing.JPanel {
         AddItem_txt.setText("");
         Quan_txt.setText("");
         Unit_Txt.setText("");
-        ExpiryDtePck.setDate(Date.from(dateNow.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+       
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -444,7 +435,6 @@ public class Inventory extends javax.swing.JPanel {
     private javax.swing.JButton Additem_Btn;
     private javax.swing.JButton ClearBtn;
     private javax.swing.JButton Delete_btn;
-    private com.toedter.calendar.JDateChooser ExpiryDtePck;
     private javax.swing.JComboBox<String> Item_box;
     private javax.swing.JTextField Quan_txt;
     private javax.swing.JTextField Unit_Txt;
@@ -452,7 +442,6 @@ public class Inventory extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;

@@ -4,10 +4,12 @@
  */
 package bubt_rms;
 
+import bubt_rms.Panels.Customer;
 import bubt_rms.Panels.Dashboard;
-import bubt_rms.Panels.Inventory;
+import bubt_rms.Panels.Inventory1;
 import bubt_rms.Panels.MenuItemDes;
 import bubt_rms.Panels.OrderItems;
+import bubt_rms.Panels.Payment;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -40,14 +42,13 @@ public class MainWindow extends javax.swing.JFrame {
         
     }
    
-    
-    public Inventory Inv1 = new Inventory();
+    public Customer cust = new Customer();
+    public Inventory1 Inv1 = new Inventory1();
     public MenuItemDes menuitem1 = new MenuItemDes();
-    /**
-     *
-     */
     public OrderItems ordritms = new OrderItems();
-    public Dashboard dashboard1 = new Dashboard(Inv1,menuitem1,ordritms);
+    public Payment payment = new Payment();
+    
+    public Dashboard dashboard1 = new Dashboard(Inv1,menuitem1,ordritms,cust,payment);
     
     private void panel_selection(String panels){
         
@@ -55,6 +56,8 @@ public class MainWindow extends javax.swing.JFrame {
         Inv1.setVisible(("invn".equals(panels)));
         menuitem1.setVisible(("mnui".equals(panels)));
         ordritms.setVisible(("ordr".equals(panels)));
+        cust.setVisible(("cust".equals(panels)));
+        payment.setVisible(("paym".equals(panels)));
 //        Staff_management.setVisible(("staf".equals(panels)));
 //        Reservation_maangement.setVisible(("resv".equals(panels)));
 //        User_Configuration.setVisible(("conf".equals(panels)));
@@ -124,7 +127,7 @@ public class MainWindow extends javax.swing.JFrame {
         logoutBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/bell2.png"))); // NOI18N
         jPanel1.add(logoutBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(1250, 20, 30, -1));
 
-        jLayeredPane1.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1740, -1));
+        jLayeredPane1.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1940, -1));
 
         jPanel2.setBackground(new java.awt.Color(35, 35, 35));
         jPanel2.setToolTipText("");
@@ -346,6 +349,8 @@ public class MainWindow extends javax.swing.JFrame {
         jPanel13.add(Inv1);
         jPanel13.add(menuitem1);
         jPanel13.add(ordritms);
+        jPanel13.add(cust);
+        jPanel13.add(payment);
 
         getContentPane().add(jLayeredPane1, java.awt.BorderLayout.CENTER);
 
@@ -423,7 +428,7 @@ public class MainWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
         panel_selection("cust");
     }//GEN-LAST:event_CustInfPnlMouseClicked
-
+ 
     private void CustInfPnlMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CustInfPnlMouseEntered
         // TODO add your handling code here:
         CustInfPnl.setBackground(new java.awt.Color(0, 0, 0));
